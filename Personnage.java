@@ -18,6 +18,12 @@ public class Personnage {
 			return this.nom ;
 		}
 		
+		public HashMap<String,String> getCaracteristiques(){
+			return this.caracteristiques;
+		}
+
+
+		
 	//copy
 		public HashMap<String,String> getCopyCaracteristiques(){
 			HashMap<String,String> res ;

@@ -7,6 +7,7 @@ import java.io.FileNotFoundException;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.Arrays;
+import java.util.Map ;
 
 public class Gestionnaire {
     private HashMap<String,Personnage> personnages;
@@ -38,8 +39,8 @@ public class Gestionnaire {
                 perso = new Personnage(nom);
                 line = bReader.readLine();
                 s = line.split(";");
-                for(int j=0; j<s.size()-1; j=j+2){
-                    perso.ajouterCaracteristique(new Caracteristique(s[j],s[j+1]));
+                for(int j=0; j<s.length; j=j+2){
+                    perso.ajouterCaracteristique(s[j],s[j+1]);
                 }
                 personnages.put(nom,perso);
             }
@@ -62,36 +63,39 @@ public class Gestionnaire {
             line = bReader.readLine();
             taille = Integer.parseInt(line);
 
-            for(int i=0; i<taille,i++){
+            for(int i=0; i<taille;i++){
                 line=bReader.readLine();
                 s= line.split("**");
                 attributs.put(s[0],new Attribut(s[0],s[1]));
             }
             bReader.close();
             fReader.close();
-        }
+        } catch (Exception e) {
+			System.out.println(e);
+		}
     }
 
     public void enregistrerPerso(String file){
-                try{
-            Writer fWriter = new FileWriter(file);
-            BufferedWriter bWriter = new BufferedWriter(fWriter);
-            bWriter.write(String.valueOf((personnages.size()));
-            bWriter.newLine();
-            for (String nom : personnages.keySet()){
-                bWriter.write(nom);
-                bWriter.newLine();
-                for( Caracteristique c : personnages.get(nom))
-                    bWriter.write(c.getnom()+';'+c.getvaleur()+';')
-                bWriter.newLine();
-            }
-            bWriter.close();
-            fWriter.close();
-            
-        }
-        } catch( Exception e){
-            System.out.println("Erreur d'enregistrement dans les personnages"+e);
-        }
+		HashMap<String,String> temp ;
+		try{
+			Writer fWriter = new FileWriter(file);
+			BufferedWriter bWriter = new BufferedWriter(fWriter);
+			bWriter.write(String.valueOf((personnages.size())));
+			bWriter.newLine();
+			for (Map.Entry<String,Personnage> p : personnages.entrySet()){
+				bWriter.write(p.getKey());
+				bWriter.newLine();
+				temp = p.getValue().getCopyCaracteristiques();
+				for (Map.Entry<String,String> car : temp.entrySet()){
+					bWriter.write(car.getKey() +';'+ car.getValue()+';') ;
+				}
+				bWriter.newLine();
+			}
+			bWriter.close();
+			fWriter.close();
+		} catch( Exception e){
+			System.out.println("Erreur d'enregistrement dans les personnages"+e);
+		}
     }
 
     public void enregistrerAttribut(String file){
@@ -101,7 +105,7 @@ public class Gestionnaire {
             bWriter.write(String.valueOf(attributs.size()));
             bWriter.newLine();
             for( String nom : attributs.keySet()){
-                bWriter(nom+"**"+attributs.get(nom).getQuestion());
+                bWriter.write(nom+"**"+attributs.get(nom).getQuestion());
                 bWriter.newLine();
             }
             bWriter.close();
@@ -112,10 +116,6 @@ public class Gestionnaire {
     }
 
     public void deroulerPartie(){
-
-    }
-
-    public Caracteristique transformerReponse(){
 
     }
 }

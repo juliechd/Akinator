@@ -15,6 +15,13 @@ public Attribut(String nom, String question){
 	this.question = question;	
 }
 
+public Attribut(){
+	this.nom = "";
+	this.combinaison = new HashMap<String, Integer>();
+	this.effectifTot = 0;
+	this.question = "";	
+}
+
 // mutateurs
 public void setNom(String nom){
 	this.nom = nom;
@@ -50,22 +57,6 @@ public HashMap<String, Integer> getCombinaison(){
 }
 
 // méthodes
-	/*public String poserQuestion(String caracteristique){
-		String [] s;
-		String questionposee;
-		questionposee = "";
-		s = this.question.split(";");
-		for (int i=0; i<s.length; i++){
-			if (s[i] == "nom"){
-				s[i] = this.nom;
-			}
-			if (s[i] == "caracteristique"){
-				s[i] = caracteristique;
-			}
-			questionposee = questionposee + " " + s[i];
-		}
-		return questionposee;	
-	}*/
 	
 	public String poserQuestion(String caracteristique){
 		String questionposee;
@@ -77,5 +68,27 @@ public HashMap<String, Integer> getCombinaison(){
 	public int retirerCaracteristique(String caracteristique){
 		this.combinaison.remove(caracteristique);
 		return combinaison.size();		
+	}
+	
+	public void ajouterCaracteristique(String caracteristique){
+		this.combinaison.put(caracteristique,1);
+	}
+	
+	public void ajoutEffectifLocal(String caracteristique){
+		this.combinaison.put(caracteristique, this.combinaison.get(caracteristique) + 1);
+	}
+	
+	public void enleverEffectifLocal(String caracteristique){
+		this.combinaison.put(caracteristique, this.combinaison.get(caracteristique) - 1);
+	}
+
+//add
+	public void add(String valeur){
+		if (this.combinaison.containsValue(valeur)) {
+			this.ajoutEffectifLocal(valeur);
+		} else {
+			this.ajouterCaracteristique(valeur);
+			}
+		this.effectifTot = this.effectifTot + 1;
 	}
 }
