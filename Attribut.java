@@ -1,4 +1,5 @@
 import java.util.HashMap;
+import java.util.Map ;
 public class Attribut{
 
 // attributs
@@ -22,6 +23,13 @@ public Attribut(){
 	this.question = "";	
 }
 
+public void affichage(){
+	System.out.println(" nom "+nom+" effectif "+effectifTot);
+	for (Map.Entry<String,Integer> p : combinaison.entrySet()){
+		System.out.print( p.getValue()+"  "+p.getKey());
+	}
+	System.out.println();
+}
 // mutateurs
 public void setNom(String nom){
 	this.nom = nom;
@@ -84,7 +92,9 @@ public HashMap<String, Integer> getCombinaison(){
 
 //add
 	public void add(String valeur){
-		if (this.combinaison.containsValue(valeur)) {
+
+		if (this.combinaison.containsKey(valeur)) {
+			//System.out.println("j'ajoute dans l'effectif");
 			this.ajoutEffectifLocal(valeur);
 		} else {
 			this.ajouterCaracteristique(valeur);

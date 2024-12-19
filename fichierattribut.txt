@@ -1,0 +1,3 @@
+2
+genre!Quel est votre genre
+cheveux!Est ce que ses cheveux sont 

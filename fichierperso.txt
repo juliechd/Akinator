@@ -1,0 +1,9 @@
+4
+Harry
+genre;homme;cheveux;noir
+Ron
+genre;homme;cheveux;roux
+Hermione
+genre;femme;cheveux;marron
+test
+cheveux;marron

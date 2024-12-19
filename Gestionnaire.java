@@ -18,6 +18,21 @@ public class Gestionnaire {
         attributs = new HashMap<String,Attribut>();
     }
 
+    public HashMap<String,Attribut> getAttribut(){
+            return this.attributs;
+    }
+
+    public HashMap<String,Personnage> getPersonnage(){
+        return this.personnages;
+    }
+
+    public void setAttribut(HashMap<String,Attribut> a){
+            this.attributs=a;
+    }
+
+    public void setPersonnage(HashMap<String,Personnage> p){
+        this.personnages = p;
+    }
     public void chargerPerso(String file){
 	String line;
         String[] s;
@@ -32,7 +47,6 @@ public class Gestionnaire {
             //lecture nombre de personnage
             line = bReader.readLine();
             taille = Integer.parseInt(line);
-
             for(int i =0; i<taille; i++){
                 line = bReader.readLine();
                 nom=line;
@@ -58,14 +72,12 @@ public class Gestionnaire {
         try{
             FileReader fReader = new FileReader(file);
             BufferedReader bReader = new BufferedReader(fReader);
-
             //lecture nombre d'attribut
             line = bReader.readLine();
             taille = Integer.parseInt(line);
-
             for(int i=0; i<taille;i++){
                 line=bReader.readLine();
-                s= line.split("**");
+                s= line.split("!");
                 attributs.put(s[0],new Attribut(s[0],s[1]));
             }
             bReader.close();
@@ -105,7 +117,7 @@ public class Gestionnaire {
             bWriter.write(String.valueOf(attributs.size()));
             bWriter.newLine();
             for( String nom : attributs.keySet()){
-                bWriter.write(nom+"**"+attributs.get(nom).getQuestion());
+                bWriter.write(nom+"!"+attributs.get(nom).getQuestion());
                 bWriter.newLine();
             }
             bWriter.close();
@@ -117,5 +129,40 @@ public class Gestionnaire {
 
     public void deroulerPartie(){
 
+    }
+
+    public void affichageAttribut(){
+
+        for( String nom : attributs.keySet()){
+                System.out.println(nom+"!"+attributs.get(nom).getQuestion());
+            }
+    }
+
+    public void affichagePersos(){
+        HashMap<String,String> temp ;
+        for (Map.Entry<String,Personnage> p : personnages.entrySet()){
+				System.out.println(p.getKey());
+				temp = p.getValue().getCopyCaracteristiques();
+				for (Map.Entry<String,String> car : temp.entrySet()){
+					System.out.print(car.getKey() +';'+ car.getValue()+';') ;
+				}
+				System.out.println();
+			}
+    }
+    public static void main(String[] args) {
+        // teste chargement
+        Gestionnaire g = new Gestionnaire();
+        String f ="fichierperso.txt";
+        String f2 = "fichierattribut.txt";
+        g.chargerPerso(f);
+        g.chargerAttribut("fichierattribut.txt");
+        //g.affichageAttribut();
+        g.affichagePersos();
+        PersonnagesRestants persorest = new PersonnagesRestants(g.getAttribut(),g.getPersonnage());
+        persorest.trier();
+        persorest.affichagePersos();
+
+        g.enregistrerAttribut("testattribut.txt");
+        g.enregistrerPerso("testperso.txt");
     }
 }
