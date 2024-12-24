@@ -6,7 +6,6 @@ public class Attribut{
 private String nom;
 private String question;
 private int effectifTot;
-private int repartion;
 private HashMap<String, Integer> combinaison;
 
 // constructeur
@@ -14,7 +13,6 @@ public Attribut(String nom, String question){
 	this.nom = nom;
 	this.combinaison = new HashMap<String, Integer>();
 	this.effectifTot = 0;
-	this.repartion = 0;
 	this.question = question;	
 }
 
@@ -22,7 +20,6 @@ public Attribut(){
 	this.nom = "";
 	this.combinaison = new HashMap<String, Integer>();
 	this.effectifTot = 0;
-	this.repartion =0;
 	this.question = "";	
 }
 
@@ -37,6 +34,7 @@ public void affichage(){
 public int ouiNonQuestion(){ // nul !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! a refaire mieux !
 	//permet de savoir si l'attribue a plus de deux reponse possible ou non
 	int i=0;
+	System.out.println(this.nom);
 	if(this.combinaison.size()==1){
 		i=1;
 	}
@@ -51,9 +49,6 @@ public void setEffectifTot(int effectifTot){
 	this.effectifTot = effectifTot;
 }
 
-public void setRepartion(int e){
-	this.repartion = e;
-}
 
 public void setCombinaison(HashMap<String, Integer> combinaison){
 	this.combinaison = combinaison;
@@ -71,9 +66,6 @@ public int getNbCaract(){
 	return this.combinaison.size();
 }
 
-public int getRepartion(){
-	return this.repartion;
-}
 
 public String getNom(){
 	return this.nom;
