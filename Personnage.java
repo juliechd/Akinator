@@ -22,6 +22,13 @@ public class Personnage {
 			return this.caracteristiques;
 		}
 
+		public void afficher(){
+				System.out.println(this.nom);
+				for (Map.Entry<String,String> car : this.caracteristiques.entrySet()){
+					System.out.print(car.getKey() +';'+ car.getValue()+';') ;
+				}
+				System.out.println();
+		}
 
 		
 	//copy
@@ -47,7 +54,7 @@ public class Personnage {
 		public int verifValeurCaracteristique(String caracteristique, String valeur){
 			int res ;
 				res = 0;
-				if (caracteristiques.get(caracteristique).equals(valeur)){
+				if (caracteristiques.containsKey(caracteristique) && caracteristiques.get(caracteristique).equals(valeur)){
 					res = 1;
 				}
 				return res ;

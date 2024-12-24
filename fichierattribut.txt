@@ -1,3 +1,5 @@
-2
-genre!Quel est votre genre
+4
+genre!Quel est votre genre 
 cheveux!Est ce que ses cheveux sont 
+existance!Est ce que votre personnage est 
+lunette!Est ce que votre personnage a des lunettes

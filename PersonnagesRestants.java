@@ -27,7 +27,7 @@ public class PersonnagesRestants {
 		
 	}
 
-	public HashMap<String,Attribut> getAttribut(){
+	public HashMap<String,Attribut> getAttributs(){
             return this.attributs;
     }
 
@@ -48,31 +48,56 @@ public class PersonnagesRestants {
 		}
 	*/
 	//MAJ
+		public boolean continuer(){
+			boolean continuer = true;
+			System.out.println("taille attribut "+this.attributs.size()+"  nb perso "+this.personnages.size());
+			continuer = (this.attributs.size()!= 0) && (this.personnages.size() != 1);
+			return continuer;
+		}
+
 		public void MAJPersonnages(String attribut, String valeur, int choix){
 			Iterator<HashMap.Entry<String, Personnage>> it = personnages.entrySet().iterator();
+				//System.out.println("maj perso "+attribut+"      "+valeur);
 			while(it.hasNext()){
 					Map.Entry<String, Personnage> p = it.next();
+					//p.getValue().afficher();
 					if (p.getValue().verifValeurCaracteristique(attribut,valeur) == choix){
 						it.remove();	
 						MAJEffectifs(p.getValue());					
 					}
 			}
+			//System.out.println("fin maj perso");
 		}
 		
-		public void MAJAttributs(String attribut, String valeur){
+		//essaie pour faire un truc un peut mieux mais pas ouf
+		public void MAJAttributs(String attribut, String valeur, int choix){
 			int compteur;
+			int enlever=0;
+			//Si jamais c'est une question avec seulement deux réponse, mettre non implique forcement que la réponse est oui, sinon le joueur met je ne sais pas
+			if(choix ==1 && attributs.get(attribut).ouiNonQuestion()==1){//pas encore fonctionnel
+				enlever =1;
+			}
 			compteur = attributs.get(attribut).retirerCaracteristique(valeur);
-			if (compteur == 1){
+			if (compteur == 1 || choix == 0 || enlever ==1 ){
 				attributs.remove(attribut);
 			}
+			//affichageAttribut();
+		}
+
+		public void EnleverAttributs(String attribut){
+			this.attributs.remove(attribut);
 		}
 		
 		public void MAJEffectifs(Personnage p){
 			Attribut a;
+			//p.afficher();
 			for (Map.Entry<String,String> c : p.getCaracteristiques().entrySet()){
-				a= attributs.get(c.getKey());
-				a.enleverEffectifLocal(c.getValue());
-				a.setEffectifTot(attributs.get(c.getKey()).getEffectifTot()-1);
+				//System.out.println(c.getValue()+"    "+c.getKey());
+				if(attributs.containsKey(c.getKey())){
+					a= attributs.get(c.getKey());
+					a.enleverEffectifLocal(c.getValue());
+					a.setEffectifTot(attributs.get(c.getKey()).getEffectifTot()-1);
+				}
 			}
 		}
 		
@@ -81,22 +106,48 @@ public class PersonnagesRestants {
 			Attribut attribut = meuilleurAttribut();
 			result[0] = attribut.getNom();
 			result[1] = effectifLocal(attribut);
+			//System.out.println(" trouve caract dep "+result[0]+"   "+result[1]);
 			return result;
 				
 		}
 		
 		public Attribut meuilleurAttribut(){
-		int i = 0;
+		double max = 0;
 		Attribut attribut = new Attribut();
+		double pourcent;
 		for (Attribut a : attributs.values()){
-			if (a.getEffectifTot() > i){
-				i = a.getEffectifTot();
+			//System.out.println("meilleur attribu parcourt "+a.getNom()+"   "+a.getEffectifTot());
+			if (a.getEffectifTot() > max){
+				//caract = effectifLocal(a);
+				max =a.getEffectifTot();
 				attribut = a;
 			}
 		}
+			//System.out.println("meilleur attribu parcourt "+attribut.getNom());
+		
+			System.out.println("max "+max+"    "+attribut.getNom());
 		return attribut;
 		}
+		/*
+		public Attribut meuilleurAttributtest(){
+		double max = 0;
+		Attribut attribut = new Attribut();
+		double pourcent;
+		for (Attribut a : attributs.values()){
+			System.out.println("meilleur attribu parcourt "+a.getNom()+"   "+a.getEffectifTot());
+			pourcent = a.getEffectifTot()*a.getNbCaract();
+			if (pourcent > max && pourcent != this.personnages.size()){
+				//caract = effectifLocal(a);
+				max = pourcent;
+				attribut = a;
+			}
+		}
+			//System.out.println("meilleur attribu parcourt "+attribut.getNom());
 		
+			System.out.println("max "+max+"    "+attribut.getNom());
+		return attribut;
+		}
+		*/
 		public String effectifLocal(Attribut attribut){
 			double i = 1;
 			String caracteristique = "";
@@ -112,21 +163,7 @@ public class PersonnagesRestants {
 			}
 			return caracteristique;
 		}
-
-		public void trier(){
-			int choix=-1;
-			String[] caract = this.trouvercaracteristiqueDepartageant();
-			System.out.println(caract[0]+"    "+caract[1]);
-			//poser question
-			try ( Scanner scanner = new Scanner( System.in ) ) {
-				while((choix!=0) && (choix!=1)) {
-					System.out.println(this.attributs.get(caract[0]).poserQuestion(caract[1])+" 0 pour oui / 1 nom");
-					choix= scanner.nextInt();
-				}
-            }
-			MAJPersonnages(caract[0],caract[1],choix);
-			MAJAttributs(caract[0],caract[0]);
-		}
+		
 
 		public void affichageAttribut(){
 

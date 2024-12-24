@@ -6,6 +6,7 @@ public class Attribut{
 private String nom;
 private String question;
 private int effectifTot;
+private int repartion;
 private HashMap<String, Integer> combinaison;
 
 // constructeur
@@ -13,6 +14,7 @@ public Attribut(String nom, String question){
 	this.nom = nom;
 	this.combinaison = new HashMap<String, Integer>();
 	this.effectifTot = 0;
+	this.repartion = 0;
 	this.question = question;	
 }
 
@@ -20,6 +22,7 @@ public Attribut(){
 	this.nom = "";
 	this.combinaison = new HashMap<String, Integer>();
 	this.effectifTot = 0;
+	this.repartion =0;
 	this.question = "";	
 }
 
@@ -30,6 +33,15 @@ public void affichage(){
 	}
 	System.out.println();
 }
+
+public int ouiNonQuestion(){ // nul !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! a refaire mieux !
+	//permet de savoir si l'attribue a plus de deux reponse possible ou non
+	int i=0;
+	if(this.combinaison.size()==1){
+		i=1;
+	}
+	return i;
+}
 // mutateurs
 public void setNom(String nom){
 	this.nom = nom;
@@ -37,6 +49,10 @@ public void setNom(String nom){
 
 public void setEffectifTot(int effectifTot){
 	this.effectifTot = effectifTot;
+}
+
+public void setRepartion(int e){
+	this.repartion = e;
 }
 
 public void setCombinaison(HashMap<String, Integer> combinaison){
@@ -50,6 +66,13 @@ public void setQuestion(String question){
 //accesseurs 
 public int getEffectifTot(){
 	return this.effectifTot;
+}
+public int getNbCaract(){
+	return this.combinaison.size();
+}
+
+public int getRepartion(){
+	return this.repartion;
 }
 
 public String getNom(){
@@ -88,6 +111,13 @@ public HashMap<String, Integer> getCombinaison(){
 	
 	public void enleverEffectifLocal(String caracteristique){
 		this.combinaison.put(caracteristique, this.combinaison.get(caracteristique) - 1);
+		if(this.combinaison.get(caracteristique)==0){
+			this.combinaison.remove(caracteristique);
+		}
+	}
+
+	public void majRepartition(){
+
 	}
 
 //add

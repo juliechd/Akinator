@@ -8,14 +8,25 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.Arrays;
 import java.util.Map ;
+import java.util.Scanner;
 
 public class Gestionnaire {
     private HashMap<String,Personnage> personnages;
     private HashMap<String,Attribut> attributs;
+    private PersonnagesRestants persorest;
 
     public Gestionnaire(){
         personnages = new HashMap<String,Personnage>();
         attributs = new HashMap<String,Attribut>();
+        persorest = new PersonnagesRestants(attributs,personnages);
+    }
+
+    public Gestionnaire(String fichierattribut, String fichierperso){
+        personnages = new HashMap<String,Personnage>();
+        attributs = new HashMap<String,Attribut>();
+        chargerPerso(fichierperso);
+        chargerAttribut(fichierattribut);
+        persorest = new PersonnagesRestants(attributs,personnages);
     }
 
     public HashMap<String,Attribut> getAttribut(){
@@ -127,9 +138,42 @@ public class Gestionnaire {
         }
     }
 
-    public void deroulerPartie(){
-
+    public void deroulerPartie(Scanner scanner){
+        //persorest.affichagePersos();
+        //persorest.affichageAttribut();
+            while(persorest.continuer()){
+                this.trier(scanner);
+            }
+            System.out.println("fin");
     }
+
+    public void trier(Scanner scanner){
+			int choix=-1;
+			String[] caract = persorest.trouvercaracteristiqueDepartageant();
+			//System.out.println(caract[0]+"    "+caract[1]);
+			//poser question
+			//try ( Scanner scanner = new Scanner( System.in ) ) {
+				//while((choix!=0) && (choix!=1) && (persorest.getAttributs().size()!=0)) {
+				while((choix!=0) && (choix!=1) && (choix !=2)) {
+					System.out.println(persorest.getAttributs().get(caract[0]).poserQuestion(caract[1])+" 0 pour oui / 1 nom / 2 je ne sais pas");
+					choix= scanner.nextInt();
+                    /*if(choix ==2){ //si le joueur ne sais pas, on pose une nouvelle question
+                        //persorest.MAJAttributs(caract[0],caract[0]);
+                        persorest.EnleverAttributs(caract[0]);
+                        caract = persorest.trouvercaracteristiqueDepartageant();
+                        //System.out.println(caract[0]+"    "+caract[1]);
+                    }*/
+				}
+           // }
+            if(choix == 2){//si le joueur ne sais pas, on pose une nouvelle question
+                        //persorest.MAJAttributs(caract[0],caract[0]);
+                        persorest.EnleverAttributs(caract[0]);
+                        caract = persorest.trouvercaracteristiqueDepartageant();
+                        //System.out.println(caract[0]+"    "+caract[1]);
+            } else {
+                persorest.MAJPersonnages(caract[0],caract[1],choix);
+                persorest.MAJAttributs(caract[0],caract[0],choix);}
+		}
 
     public void affichageAttribut(){
 
@@ -151,16 +195,24 @@ public class Gestionnaire {
     }
     public static void main(String[] args) {
         // teste chargement
-        Gestionnaire g = new Gestionnaire();
         String f ="fichierperso.txt";
         String f2 = "fichierattribut.txt";
-        g.chargerPerso(f);
-        g.chargerAttribut("fichierattribut.txt");
+
+        Gestionnaire g = new Gestionnaire(f2,f);
+        //g.chargerPerso(f);
+        //g.chargerAttribut("fichierattribut.txt");
         //g.affichageAttribut();
         g.affichagePersos();
-        PersonnagesRestants persorest = new PersonnagesRestants(g.getAttribut(),g.getPersonnage());
-        persorest.trier();
-        persorest.affichagePersos();
+        //PersonnagesRestants persorest = new PersonnagesRestants(g.getAttribut(),g.getPersonnage());
+        //persorest.trier();
+        //persorest.affichagePersos();
+        //g.trier();
+		try ( Scanner scanner = new Scanner( System.in ) ) {
+            g.deroulerPartie(scanner);}
+        catch(Exception e){
+            System.out.println(e);
+        }
+        g.affichagePersos();
 
         g.enregistrerAttribut("testattribut.txt");
         g.enregistrerPerso("testperso.txt");
