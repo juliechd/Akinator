@@ -143,19 +143,21 @@ public class Gestionnaire {
         //persorest.affichageAttribut();
             while(persorest.continuer()){
                 this.trier(scanner);
+                System.out.println("--------------------- Nouveau tour -------------------------");
             }
             System.out.println("fin");
     }
 
     public void trier(Scanner scanner){
+            //persorest.affichageGlobal();
 			int choix=-1;
-			String[] caract = persorest.trouvercaracteristiqueDepartageant();
+			String[] caract = persorest.trouvercaracteristiqueDepartageantTest();
 			//System.out.println(caract[0]+"    "+caract[1]);
 			//poser question
 			//try ( Scanner scanner = new Scanner( System.in ) ) {
 				//while((choix!=0) && (choix!=1) && (persorest.getAttributs().size()!=0)) {
 				while((choix!=0) && (choix!=1) && (choix !=2)) {
-					System.out.println(persorest.getAttributs().get(caract[0]).poserQuestion(caract[1])+" 0 pour oui / 1 nom / 2 je ne sais pas");
+					System.out.println(persorest.getAttributs().get(caract[0]).poserQuestion(caract[1])+" 0 pour oui / 1 non / 2 je ne sais pas");
 					choix= scanner.nextInt();
                     /*if(choix ==2){ //si le joueur ne sais pas, on pose une nouvelle question
                         //persorest.MAJAttributs(caract[0],caract[0]);
@@ -172,7 +174,13 @@ public class Gestionnaire {
                         //System.out.println(caract[0]+"    "+caract[1]);
             } else {
                 persorest.MAJPersonnages(caract[0],caract[1],choix);
-                persorest.MAJAttributs(caract[0],caract[0],choix);}
+                persorest.MAJAttributs(caract[0],caract[1],choix);
+                //persorest.affichageAttribut();
+                }
+            System.out.println("*****************");
+            //persorest.affichageGlobal();
+            persorest.affichagePersos();
+            System.out.println("*****************");
 		}
 
     public void affichageAttribut(){
@@ -202,7 +210,7 @@ public class Gestionnaire {
         //g.chargerPerso(f);
         //g.chargerAttribut("fichierattribut.txt");
         //g.affichageAttribut();
-        g.affichagePersos();
+        //g.affichagePersos();
         //PersonnagesRestants persorest = new PersonnagesRestants(g.getAttribut(),g.getPersonnage());
         //persorest.trier();
         //persorest.affichagePersos();

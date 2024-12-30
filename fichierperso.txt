@@ -1,9 +1,13 @@
-4
+6
 Harry Potter
-genre;homme;cheveux;noir;existance;imaginaire;lunette;oui
+genre;homme;cheveux;noir;existance;imaginaire;lunette;a des lunettes
 Ron Weasley
 genre;homme;cheveux;roux;existance;imaginaire
 Hermione Granger
 genre;femme;cheveux;marron;existance;imaginaire
-test
+Paul test
 cheveux;marron;existance;imaginaire
+Emmanuel Macron
+existance;reel;metier;president;lunette;n'a pas de lunettes
+Michel C
+existance;reel;metier;ingénieur;genre;homme;lunette;a des lunettes

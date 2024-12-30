@@ -54,8 +54,12 @@ public class Personnage {
 		public int verifValeurCaracteristique(String caracteristique, String valeur){
 			int res ;
 				res = 0;
-				if (caracteristiques.containsKey(caracteristique) && caracteristiques.get(caracteristique).equals(valeur)){
-					res = 1;
+				if (caracteristiques.containsKey(caracteristique)){
+					if( caracteristiques.get(caracteristique).equals(valeur)){
+						res = 1;
+					}
+				}else{
+					res=2;
 				}
 				return res ;
 		}
